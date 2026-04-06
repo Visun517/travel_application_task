@@ -10,7 +10,7 @@ class HomeScreenTopBanner extends StatelessWidget {
       height: 300,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/home_banner_image.jpg'),
+          image: AssetImage('assets/images/home_banner_image2.png'),
           fit: BoxFit.cover,
         ),
       ),
@@ -33,7 +33,7 @@ class HomeScreenTopBanner extends StatelessWidget {
             const Text(
               "Explore the World",
               style: TextStyle(
-                fontSize: 40,
+                fontSize: 35,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),

@@ -26,5 +26,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/home_banner_image.jpg
+    - assets/images/home_banner_image2.png
 
   

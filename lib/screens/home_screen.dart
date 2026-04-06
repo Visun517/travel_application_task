@@ -6,12 +6,21 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor: Colors.grey[100],
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               HomeScreenTopBanner(),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: const Text(
+                  "Popular Destinations",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+              ),
             ],
           ),
         ),
