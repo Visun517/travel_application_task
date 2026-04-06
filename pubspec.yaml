@@ -25,7 +25,12 @@ flutter:
 
   uses-material-design: true
   assets:
-    - assets/images/home_banner_image.jpg
     - assets/images/home_banner_image2.png
+    - assets/images/bali.png
+    - assets/images/maldives.png
+    - assets/images/paris.png
+    - assets/images/peru.png
+    - assets/images/tokyo.png
+
 
   

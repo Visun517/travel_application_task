@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:travel_application/models/place_model.dart';
 import 'package:travel_application/widgets/home_screen_top_banner.dart';
+import 'package:travel_application/widgets/popular_destination_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -20,6 +22,15 @@ class HomeScreen extends StatelessWidget {
                   "Popular Destinations",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
+              ),
+              ListView.builder(
+                shrinkWrap: true, 
+                physics:
+                    const NeverScrollableScrollPhysics(), 
+                itemCount: popularPlaces.length,
+                itemBuilder: (context, index) {
+                  return PopularDestinationCard(place: popularPlaces[index]);
+                },
               ),
             ],
           ),
