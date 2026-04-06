@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               HomeScreenTopBanner(),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.only(top: 30 , left: 20 , bottom: 10),
                 child: const Text(
                   "Popular Destinations",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
