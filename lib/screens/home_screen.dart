@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_application/models/place_model.dart';
-import 'package:travel_application/widgets/custom_bottom_navigation_bar.dart';
+import 'package:travel_application/screens/main_screen.dart';
 import 'package:travel_application/widgets/home_screen_top_banner.dart';
 import 'package:travel_application/widgets/popular_destination_card.dart';
 
@@ -36,7 +36,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_application/models/place_model.dart';
-import 'package:travel_application/widgets/custom_bottom_navigation_bar.dart';
+import 'package:travel_application/screens/main_screen.dart';
 
 class DestinationDetailsScreen extends StatelessWidget {
   final Place place;
@@ -114,7 +114,6 @@ class DestinationDetailsScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(),
     );
   }
 }

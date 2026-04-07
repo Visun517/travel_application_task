@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_application/screens/home_screen.dart';
+import 'package:travel_application/screens/main_screen.dart';
 // import 'package:travel_application/screens/profile_screen.dart';
 
 void main() {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const HomeScreen(),
+      home: const MainScreen(),
     );
   }
 }
