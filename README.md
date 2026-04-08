@@ -33,4 +33,4 @@ This project is a structured Flutter application developed as an internship asse
 
 1. **Clone the repository:**
    ```bash
-   git clone [](https://github.com/Visun517/travel_application_task.git)
+   git clone [https://github.com/Visun517/travel_application_task.git](https://github.com/Visun517/travel_application_task.git)
