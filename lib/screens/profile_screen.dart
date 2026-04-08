@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:travel_application/models/user_model.dart';
-import 'package:travel_application/screens/main_screen.dart';
 import 'package:travel_application/widgets/profile_header.dart';
 import 'package:travel_application/widgets/profile_stat_section.dart';
 import 'package:travel_application/widgets/profile_menu_item.dart';
@@ -17,18 +16,24 @@ class ProfileScreen extends StatelessWidget {
           child: SafeArea(
             child: Column(
               children: [
+
                 ProfileHeader(
                   name: currentUser.name,
                   email: currentUser.email,
                   imagePath: currentUser.imagePath,
                 ),
+
+
                 const SizedBox(height: 30),
+
+
 
                 ProfileStatSection(
                   trips: currentUser.tripsCount,
                   favorites: currentUser.favoritesCount,
                   reviews: currentUser.reviewsCount,
                 ),
+
 
                 const SizedBox(height: 30),
 
@@ -39,6 +44,7 @@ class ProfileScreen extends StatelessWidget {
                     print("Edit Profile Clicked");
                   },
                 ),
+
                 ProfileMenuItem(
                   icon: Icons.favorite_border,
                   title: "My Favorites",
@@ -46,6 +52,7 @@ class ProfileScreen extends StatelessWidget {
                     print("Favorites Clicked");
                   },
                 ),
+
                 ProfileMenuItem(
                   icon: Icons.settings_outlined,
                   title: "Settings",
@@ -53,6 +60,7 @@ class ProfileScreen extends StatelessWidget {
                     print("Settings Clicked");
                   },
                 ),
+                
                 ProfileMenuItem(
                   icon: Icons.help_outline,
                   title: "Help & Support",
