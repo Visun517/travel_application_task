@@ -23,10 +23,7 @@ class ProfileScreen extends StatelessWidget {
                   imagePath: currentUser.imagePath,
                 ),
 
-
                 const SizedBox(height: 30),
-
-
 
                 ProfileStatSection(
                   trips: currentUser.tripsCount,
@@ -34,9 +31,8 @@ class ProfileScreen extends StatelessWidget {
                   reviews: currentUser.reviewsCount,
                 ),
 
-
                 const SizedBox(height: 30),
-
+                
                 ProfileMenuItem(
                   icon: Icons.person_outline,
                   title: "Edit Profile",

@@ -13,45 +13,36 @@ class DestinationDetailsBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Title
+          // 1. Title
           Text(
             place.name,
-            style: const TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
           ),
+
           // Location
           Row(
             children: [
-              const Icon(
-                Icons.location_on,
-                color: Colors.blueGrey,
-                size: 20,
-              ),
+              const Icon(Icons.location_on, color: Colors.blueGrey, size: 20),
               const SizedBox(width: 5),
               Text(
                 place.location,
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.blueGrey,
-                ),
+                style: const TextStyle(fontSize: 18, color: Colors.blueGrey),
               ),
             ],
           ),
+
           const SizedBox(height: 16),
 
           // Rating section
           Row(
             children: [
-              ...List.generate(
-                5,
-                (index) => const Icon(
-                  Icons.star,
+              ...List.generate(5, (index) {
+                return Icon(
+                  index < place.rating.floor() ? Icons.star : Icons.star_border,
                   color: Colors.orange,
                   size: 24,
-                ),
-              ),
+                );
+              }),
               const SizedBox(width: 10),
               Text(
                 "${place.rating}",
@@ -62,6 +53,7 @@ class DestinationDetailsBody extends StatelessWidget {
               ),
             ],
           ),
+
           const SizedBox(height: 16),
 
           // About section
@@ -69,6 +61,7 @@ class DestinationDetailsBody extends StatelessWidget {
             "About",
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
+
           const SizedBox(height: 10),
 
           Text(
