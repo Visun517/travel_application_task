@@ -11,28 +11,24 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              HomeScreenTopBanner(),
-              Padding(
-                padding: const EdgeInsets.only(top: 30, left: 20, bottom: 10),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(child: HomeScreenTopBanner()),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0), // Padding එක දාන්න
                 child: const Text(
                   "Popular Destinations",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: popularPlaces.length,
-                itemBuilder: (context, index) {
-                  return PopularDestinationCard(place: popularPlaces[index]);
-                },
-              ),
-            ],
-          ),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate((context, index) {
+                return PopularDestinationCard(place: popularPlaces[index]);
+              }, childCount: popularPlaces.length),
+            ),
+          ],
         ),
       ),
     );
