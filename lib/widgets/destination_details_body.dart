@@ -13,6 +13,7 @@ class DestinationDetailsBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
           // 1. Title
           Text(
             place.name,
@@ -23,7 +24,9 @@ class DestinationDetailsBody extends StatelessWidget {
           Row(
             children: [
               const Icon(Icons.location_on, color: Colors.blueGrey, size: 20),
+
               const SizedBox(width: 5),
+
               Text(
                 place.location,
                 style: const TextStyle(fontSize: 18, color: Colors.blueGrey),
@@ -43,7 +46,9 @@ class DestinationDetailsBody extends StatelessWidget {
                   size: 24,
                 );
               }),
+
               const SizedBox(width: 10),
+              
               Text(
                 "${place.rating}",
                 style: const TextStyle(

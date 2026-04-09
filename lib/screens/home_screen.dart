@@ -14,15 +14,17 @@ class HomeScreen extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(child: HomeScreenTopBanner()),
+
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.all(16.0), // Padding එක දාන්න
+                padding: const EdgeInsets.all(16.0), 
                 child: const Text(
                   "Popular Destinations",
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
+            
             SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
                 return PopularDestinationCard(place: popularPlaces[index]);

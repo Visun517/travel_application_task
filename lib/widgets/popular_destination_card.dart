@@ -69,6 +69,7 @@ class PopularDestinationCard extends StatelessWidget {
                       fontSize: 20,
                     ),
                   ),
+
                   const SizedBox(height: 5),
       
                   // 2. Location with Icon
@@ -79,7 +80,9 @@ class PopularDestinationCard extends StatelessWidget {
                         size: 18,
                         color: Colors.blueGrey,
                       ),
+
                       const SizedBox(width: 4),
+
                       Text(
                         place.location,
                         style: const TextStyle(
@@ -89,6 +92,7 @@ class PopularDestinationCard extends StatelessWidget {
                       ),
                     ],
                   ),
+                  
                   const SizedBox(height: 8),
       
                   // 3. Rating with Star
