@@ -19,10 +19,12 @@ class ProfileHeader extends StatelessWidget {
         CircleAvatar(
           radius: 100,
           backgroundImage: AssetImage(imagePath),
-          child: Text(
-            email.isNotEmpty ? email[0].toUpperCase() : "U", 
-            style: const TextStyle(fontSize: 40, color: Colors.white),
-          ),
+          child: imagePath.isEmpty
+              ? Text(
+                  email.isNotEmpty ? email[0].toUpperCase() : "U",
+                  style: const TextStyle(fontSize: 40, color: Colors.white),
+                )
+              : null, 
         ),
 
         const SizedBox(height: 15),

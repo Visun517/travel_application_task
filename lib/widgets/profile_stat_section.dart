@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_application/widgets/stat_item.dart';
 
 class ProfileStatSection extends StatelessWidget {
   final int trips;
@@ -17,18 +18,9 @@ class ProfileStatSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildStatItem("Trips", trips.toString()), 
-        _buildStatItem("Favorites", favorites.toString()),
-        _buildStatItem("Reviews", reviews.toString()),
-      ],
-    );
-  }
-
-  Widget _buildStatItem(String label, String value) {
-    return Column(
-      children: [
-        Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        Text(label, style: const TextStyle(color: Colors.grey)),
+        StatItem(label:"Trips", value: trips.toString()), 
+        StatItem(label:"Favorites", value: favorites.toString()),
+        StatItem(label:"Reviews", value: reviews.toString()),
       ],
     );
   }
