@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_application/screens/main_screen.dart';
-// import 'package:travel_application/screens/profile_screen.dart';
+import 'package:travel_application/screens/onbording_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
       debugShowCheckedModeBanner: false,
-      home: const MainScreen(),
+      home: const OnboardingScreen(),
     );
   }
 }

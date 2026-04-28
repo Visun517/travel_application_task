@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_application/models/favorite_places.dart'
-    show favoritePlaces;
+import 'package:travel_application/models/favorite_places.dart';
 import 'package:travel_application/models/place_model.dart';
 import 'package:travel_application/screens/destination_details_screen.dart';
 
@@ -15,7 +14,7 @@ class PopularDestinationCard extends StatefulWidget {
 class _PopularDestinationCardState extends State<PopularDestinationCard> {
   @override
   Widget build(BuildContext context) {
-    // අදාළ ස්ථානය favorite list එකේ තිබේදැයි පරීක්ෂා කිරීම
+
     bool isFavorite = favoritePlaces.contains(widget.place);
 
     return InkWell(
@@ -43,7 +42,7 @@ class _PopularDestinationCardState extends State<PopularDestinationCard> {
                   child: Image.asset(
                     widget
                         .place
-                        .image, // StatefulWidget එකේදී widget. භාවිතා කළ යුතුයි
+                        .image, 
                     height: 180,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -63,7 +62,6 @@ class _PopularDestinationCardState extends State<PopularDestinationCard> {
                         color: isFavorite ? Colors.red : Colors.black,
                       ),
                       onPressed: () {
-                        // UI එක refresh කිරීමට setState භාවිතා කරමු
                         setState(() {
                           if (isFavorite) {
                             favoritePlaces.remove(widget.place);

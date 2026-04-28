@@ -22,7 +22,10 @@ dev_dependencies:
   flutter_lints: ^6.0.0
 
 flutter:
-
+  fonts:
+    - family: PlayfairDisplay
+      fonts:
+        - asset: assets/fonts/PlayfairDisplay-VariableFont_wght.ttf
   uses-material-design: true
   assets:
     - assets/images/home_banner_image2.png
@@ -32,6 +35,8 @@ flutter:
     - assets/images/peru.png
     - assets/images/tokyo.png
     - assets/images/user_profile.jpg
+    - assets/images/on_borad_image.jpg
+    - assets/images/pexels-tejas-kamble-715220277-34731910.jpg
 
 
   
