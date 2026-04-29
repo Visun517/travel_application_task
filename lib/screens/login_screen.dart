@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:travel_application/Components/button.dart';
 import 'package:travel_application/Components/custom_text_field.dart';
+import 'package:travel_application/screens/signup_screen.dart';
+import 'package:travel_application/widgets/customer_header.dart';
+import 'package:travel_application/widgets/footer.dart';
 import 'package:travel_application/widgets/or_devider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -18,15 +21,20 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView( 
+      body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height - 40, 
+          height: MediaQuery.of(context).size.height - 40,
           padding: const EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 20.0),
           child: Column(
             children: [
-              _buildHeader(),
+              CustomHeader(
+                title: 'Welcome Back',
+                description:
+                    'Stay connected by signing in with your email and password to access your account',
+                textSize: 50.0,
+              ),
               const SizedBox(height: 30),
-              
+
               _buildSocialLogin(),
               const SizedBox(height: 30),
 
@@ -44,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 prefixIcon: Icons.lock_outlined,
                 isPassword: true,
               ),
-              
+
               _buildRememberMeRow(),
               const SizedBox(height: 30),
 
@@ -56,30 +64,16 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               const Spacer(),
-              _buildSignUpFooter(),
+              AuthFooter(
+                leadingText: "Don't have an account? ",
+                actionText: "Sign Up",
+                targetScreen:
+                    const SignupScreen(), 
+              ),
             ],
           ),
         ),
       ),
-    );
-  }
-
-
-  Widget _buildHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const BackButton(), 
-        const SizedBox(height: 20),
-        const Center(
-          child: Text('Welcome Back', style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
-        ),
-        const Text(
-          'Stay connected by signing in with your email and password to access your account',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16, color: Colors.black54),
-        ),
-      ],
     );
   }
 
@@ -115,20 +109,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         TextButton(
           onPressed: () {},
-          child: const Text('Forgot Password?', style: TextStyle(color: Colors.black54)),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSignUpFooter() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text("Don't have an account? "),
-        GestureDetector(
-          onTap: () {},
-          child: const Text('Sign Up', style: TextStyle(fontWeight: FontWeight.bold)),
+          child: const Text(
+            'Forgot Password?',
+            style: TextStyle(color: Colors.black54),
+          ),
         ),
       ],
     );
