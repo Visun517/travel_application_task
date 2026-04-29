@@ -23,9 +23,14 @@ dev_dependencies:
 
 flutter:
   fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+
     - family: PlayfairDisplay
       fonts:
         - asset: assets/fonts/PlayfairDisplay-VariableFont_wght.ttf
+
   uses-material-design: true
   assets:
     - assets/images/home_banner_image2.png
@@ -37,6 +42,7 @@ flutter:
     - assets/images/user_profile.jpg
     - assets/images/on_borad_image.jpg
     - assets/images/pexels-tejas-kamble-715220277-34731910.jpg
+    - assets/images/google.png
 
 
   

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:travel_application/screens/main_screen.dart';
 import 'package:travel_application/screens/onbording_screen.dart';
 
 void main() {
@@ -14,7 +13,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        fontFamily: 'Poppins',
       ),
       debugShowCheckedModeBanner: false,
       home: const OnboardingScreen(),

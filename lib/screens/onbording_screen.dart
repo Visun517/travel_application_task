@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:travel_application/Components/button.dart';
 import 'package:travel_application/screens/login_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -43,32 +44,17 @@ class OnboardingScreen extends StatelessWidget {
 
               const Spacer(),
 
-              Center(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      backgroundColor: Colors.white70,
-                      foregroundColor: Colors.black87,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    child: const Text(
-                      'Explore the World',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                ),
+              CustomButton(
+                title: 'Get Started',
+                backgroundColor: Colors.white70,
+                foregroundColor: Colors.black87,
+                onPressed: () {
+                  log('Get Started button pressed');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  );
+                },
               ),
             ],
           ),
