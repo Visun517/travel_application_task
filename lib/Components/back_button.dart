@@ -5,26 +5,18 @@ class BackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Align(
       alignment: Alignment.centerLeft,
-      width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.only(left: 20, top: 10),
-        child: InkWell(
-          onTap: () => Navigator.pop(context),
-          borderRadius: BorderRadius.circular(50),
-          child: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.grey[200],
-            ),
-            child: const Icon(
-              Icons.arrow_back,
-              color: Colors.black87,
-              size: 20,
-            ),
+        padding: const EdgeInsets.only(left: 10, bottom: 0),
+        child: CircleAvatar(
+          radius: 20,
+          backgroundColor: Colors.grey[200],
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.black87, size: 22),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
       ),
