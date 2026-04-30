@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:travel_application/Components/button.dart';
 import 'package:travel_application/Components/custom_text_field.dart';
 import 'package:travel_application/screens/signup_screen.dart';
+import 'package:travel_application/services/auth.dart';
 import 'package:travel_application/widgets/customer_header.dart';
 import 'package:travel_application/widgets/footer.dart';
 import 'package:travel_application/widgets/or_devider.dart';
@@ -17,6 +18,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,15 +68,30 @@ class _LoginScreenState extends State<LoginScreen> {
                 title: 'Sign In',
                 backgroundColor: Colors.black87,
                 foregroundColor: Colors.white,
-                onPressed: () {},
+                onPressed: () {
+                  if (_emailController.text.isEmpty ||
+                      _passwordController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Please fill all fields')),
+                    );
+                    return;
+                  }
+                  if (_rememberMe) {
+                    loginUser(
+                      context: context,
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                    );
+                    clearTextFields();
+                  }
+                },
               ),
 
               const Spacer(),
               AuthFooter(
                 leadingText: "Don't have an account? ",
                 actionText: "Sign Up",
-                targetScreen:
-                    const SignupScreen(), 
+                targetScreen: const SignupScreen(),
               ),
             ],
           ),
@@ -85,7 +108,9 @@ class _LoginScreenState extends State<LoginScreen> {
           icon: Image.asset('assets/images/google.png', width: 20),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black87,
-          onPressed: () {},
+          onPressed: () {
+            continueWithGoogle(context);
+          },
         ),
         const SizedBox(height: 20),
         const OrDivider(),
@@ -116,5 +141,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ],
     );
+  }
+
+  void clearTextFields() {
+    _emailController.clear();
+    _passwordController.clear();
   }
 }

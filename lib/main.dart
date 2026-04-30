@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:travel_application/screens/login_screen.dart';
+import 'package:travel_application/screens/main_screen.dart';
 import 'package:travel_application/screens/onbording_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
 
   await Supabase.initialize(
-    url: 'YOUR_SUPABASE_URL', 
-    anonKey: 'YOUR_SUPABASE_ANON_KEY',  
+    url: dotenv.env['SUPABASE_URL']!,
+    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
 
   runApp(const MyApp());
@@ -25,7 +29,12 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
       ),
       debugShowCheckedModeBanner: false,
-      home: const OnboardingScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const OnboardingScreen(),
+        '/home': (context) => const MainScreen(),
+        '/login': (context) => const LoginScreen(),
+      },
     );
   }
 }
