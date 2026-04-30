@@ -83,3 +83,28 @@ Future<void> loginUser({
     }
   }
 }
+
+Future<void> sendOtp(String email) async {
+  try {
+    final supabase = Supabase.instance.client;
+    await supabase.auth.signInWithOtp(
+      email: email,
+      shouldCreateUser: false, 
+    );
+    print('OTP sent to $email');
+  } catch (e) {
+    print('Error sending OTP: $e');
+  }
+}
+Future<bool> verifyOtp({required String email, required String otp}) async {
+  try {
+    final response = await Supabase.instance.client.auth.verifyOTP(
+      email: email,
+      token: otp,
+      type: OtpType.recovery, 
+    );
+    return response.session != null;
+  } catch (e) {
+    return false;
+  }
+}

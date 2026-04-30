@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:travel_application/Components/button.dart';
 import 'package:travel_application/Components/custom_text_field.dart';
+import 'package:travel_application/screens/otp_screen.dart';
 import 'package:travel_application/screens/signup_screen.dart';
 import 'package:travel_application/services/auth.dart';
 import 'package:travel_application/widgets/customer_header.dart';
@@ -133,7 +134,27 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () async {
+            final email = _emailController.text.trim();
+
+            if (email.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please enter your email first')),
+              );
+              return;
+            }
+
+            await sendOtp(email);
+
+            if (context.mounted) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => OTPScreen(email: email),
+                ),
+              );
+            }
+          },
           child: const Text(
             'Forgot Password?',
             style: TextStyle(color: Colors.black54),
