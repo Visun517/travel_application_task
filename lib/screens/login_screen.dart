@@ -18,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _isLoading = false;
   bool _rememberMe = false;
 
   @override
@@ -69,23 +70,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 title: 'Sign In',
                 backgroundColor: Colors.black87,
                 foregroundColor: Colors.white,
-                onPressed: () {
-                  if (_emailController.text.isEmpty ||
-                      _passwordController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please fill all fields')),
-                    );
-                    return;
-                  }
-                  if (_rememberMe) {
-                    loginUser(
-                      context: context,
-                      email: _emailController.text,
-                      password: _passwordController.text,
-                    );
-                    clearTextFields();
-                  }
-                },
+                onPressed: _isLoading
+                    ? null
+                    : () async {
+                        setState(() => _isLoading = true);
+
+                        await loginUser(
+                          context: context,
+                          email: _emailController.text.trim(),
+                          password: _passwordController.text,
+                        );
+
+                        if (mounted) setState(() => _isLoading = false);
+                      },
               ),
 
               const Spacer(),
@@ -127,10 +124,14 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             Checkbox(
               value: _rememberMe,
-              onChanged: (v) => setState(() => _rememberMe = v!),
+              onChanged: (bool? value) {
+                setState(() {
+                  _rememberMe = value ?? false;
+                });
+              },
               activeColor: Colors.black,
             ),
-            const Text('Remember Me'),
+            const Text("Remember Me", style: TextStyle(fontSize: 16)),
           ],
         ),
         TextButton(
@@ -162,10 +163,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ],
     );
-  }
-
-  void clearTextFields() {
-    _emailController.clear();
-    _passwordController.clear();
   }
 }

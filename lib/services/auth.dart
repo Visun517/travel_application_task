@@ -35,8 +35,6 @@ Future<void> signUpUser({
       data: {'full_name': fullName},
     );
 
-    print('Signup response received. User: ${response.user}');
-
     if (context.mounted) {
       log('visun');
       if (response.user != null || response.session != null) {
@@ -63,22 +61,30 @@ Future<void> loginUser({
   required String password,
 }) async {
   try {
-    final supabse = Supabase.instance.client;
-
-    final response = await supabse.auth.signInWithPassword(
+    final supabase = Supabase.instance.client;
+    final response = await supabase.auth.signInWithPassword(
       email: email,
       password: password,
     );
 
-    if (context.mounted) {
-      if (response.user != null) {
+    if (response.user != null) {
+      if (context.mounted) {
         Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       }
+    }
+  } on AuthException catch (error) {
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(error.message), backgroundColor: Colors.red),
+      );
     }
   } catch (e) {
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+        SnackBar(
+          content: Text('Unexpected error: $e'),
+          backgroundColor: Colors.red,
+        ),
       );
     }
   }
@@ -87,21 +93,18 @@ Future<void> loginUser({
 Future<void> sendOtp(String email) async {
   try {
     final supabase = Supabase.instance.client;
-    await supabase.auth.signInWithOtp(
-      email: email,
-      shouldCreateUser: false, 
-    );
-    print('OTP sent to $email');
+    await supabase.auth.signInWithOtp(email: email, shouldCreateUser: false);
   } catch (e) {
-    print('Error sending OTP: $e');
+    log(e.toString());
   }
 }
+
 Future<bool> verifyOtp({required String email, required String otp}) async {
   try {
     final response = await Supabase.instance.client.auth.verifyOTP(
       email: email,
       token: otp,
-      type: OtpType.recovery, 
+      type: OtpType.recovery,
     );
     return response.session != null;
   } catch (e) {
