@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_application/Components/button.dart';
 import 'package:travel_application/Components/custom_text_field.dart';
 import 'package:travel_application/screens/otp_screen.dart';
@@ -8,14 +9,14 @@ import 'package:travel_application/widgets/customer_header.dart';
 import 'package:travel_application/widgets/footer.dart';
 import 'package:travel_application/widgets/or_devider.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
@@ -77,6 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         await loginUser(
                           context: context,
+                          ref: ref,
                           email: _emailController.text.trim(),
                           password: _passwordController.text,
                         );

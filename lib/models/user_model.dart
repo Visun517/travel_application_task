@@ -1,26 +1,17 @@
-class UserModel {
-  final String name;
+class UserProfile {
+  final String id;
+  final String fullName;
   final String email;
-  final String imagePath;
-  final int tripsCount;    
-  final int favoritesCount;
-  final int reviewsCount;
+  final String avatarUrl;
 
-  UserModel({
-    required this.name,
-    required this.email,
-    required this.imagePath,
-    this.tripsCount = 0,    
-    this.favoritesCount = 0,
-    this.reviewsCount = 0,
-  });
+  UserProfile({required this.id, required this.fullName, required this.email, required this.avatarUrl});
+
+  factory UserProfile.fromMap(Map<String, dynamic> map) {
+    return UserProfile(
+      id: map['id'] ?? '',
+      fullName: map['full_name'] ?? 'Traveler',
+      email: map['email'] ?? '',
+      avatarUrl: map['avatar_url'] ?? '',
+    );
+  }
 }
-
-UserModel currentUser = UserModel(
-  name: "Visun Prabodha",
-  email: "visun@example.com",
-  imagePath: 'assets/images/user_profile.jpg',
-  tripsCount: 12,
-  favoritesCount: 45,
-  reviewsCount: 8,
-);

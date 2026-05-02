@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_application/models/user_model.dart';
+import 'package:travel_application/models/user.dart';
 import 'package:travel_application/widgets/profile_header.dart';
 import 'package:travel_application/widgets/profile_stat_section.dart';
 import 'package:travel_application/widgets/profile_menu_item.dart';

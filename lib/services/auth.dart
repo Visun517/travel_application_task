@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:travel_application/providers/user_provider.dart';
 import 'package:travel_application/util/supabase_auth.dart';
 
 void continueWithGoogle(BuildContext context) async {
@@ -36,7 +38,6 @@ Future<void> signUpUser({
     );
 
     if (context.mounted) {
-      log('visun');
       if (response.user != null || response.session != null) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -57,6 +58,7 @@ Future<void> signUpUser({
 
 Future<void> loginUser({
   required BuildContext context,
+  required WidgetRef ref,
   required String email,
   required String password,
 }) async {
@@ -69,6 +71,7 @@ Future<void> loginUser({
 
     if (response.user != null) {
       if (context.mounted) {
+        ref.invalidate(userProfileProvider);
         Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       }
     }
