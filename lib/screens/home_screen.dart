@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:travel_application/loading/poplar_destination_card_loader.dart';
 import 'package:travel_application/providers/attraction_places_provider.dart';
 import 'package:travel_application/services/travel_service.dart';
 import 'package:travel_application/widgets/category_bar.dart';
@@ -34,16 +35,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(child: HomeScreenHeader()),
-            SliverToBoxAdapter(child: const HomeScreenSearchBar()),
+            const SliverToBoxAdapter(child: HomeScreenHeader()),
+            const SliverToBoxAdapter(child: const HomeScreenSearchBar()),
             const SliverToBoxAdapter(child: SizedBox(height: 10)),
-            SliverToBoxAdapter(child: const HomeScreenCategories()),
-
-            SliverToBoxAdapter(
+            const SliverToBoxAdapter(child: const HomeScreenCategories()),
+            const SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(16.0),
                 child: Row(
-                  children: const [
+                  children: [
                     Text(
                       "Popular Destinations",
                       style: TextStyle(
@@ -64,25 +64,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               ),
             ),
-
             SliverToBoxAdapter(
               child: SizedBox(
                 height: 470,
-                child: ListView.builder(
-                  cacheExtent: 100,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: ref.watch(attractionsProvider).length,
-                  itemBuilder: (context, index) {
-                    return ProviderScope(
-                      overrides: [
-                        currentAttractionProvider.overrideWithValue(
-                          allAttractions[index],
-                        ),
-                      ],
-                      child: const PopularDestinationCard(),
-                    );
-                  },
-                ),
+                child: allAttractions.isEmpty
+                    ? ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 3,
+                        itemBuilder: (context, index) =>
+                            buildPopularCardLoader(),
+                      )
+                    : ListView.builder(
+                        cacheExtent: 100,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: allAttractions.length,
+                        itemBuilder: (context, index) {
+                          return ProviderScope(
+                            overrides: [
+                              currentAttractionProvider.overrideWithValue(
+                                allAttractions[index],
+                              ),
+                            ],
+                            child: const PopularDestinationCard(),
+                          );
+                        },
+                      ),
               ),
             ),
           ],

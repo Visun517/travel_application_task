@@ -7,32 +7,23 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
-  // 1. Flutter Engine එක සූදානම් කිරීම
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 2. Environment Variables Load කිරීම
   try {
     await dotenv.load(fileName: ".env");
-    print("✅ Env file loaded successfully!");
   } catch (e) {
-    print("❌ Error loading .env file: $e");
-    // .env නැතිව ඉදිරියට යාමෙන් පලක් නැති නිසා මෙතනින් නතර කළ හැක
     return;
   }
 
-  // 3. Supabase Initialize කිරීම (Keys තියෙනවාදැයි පරීක්ෂා කරමු)
   final supabaseUrl = dotenv.env['SUPABASE_URL'];
   final supabaseAnonKey = dotenv.env['SUPABASE_ANON_KEY'];
 
   if (supabaseUrl == null || supabaseAnonKey == null) {
-    print("❌ Supabase keys are missing in .env file!");
     return;
   }
 
   await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
-  print("✅ Supabase initialized!");
 
-  // 4. App එක Start කිරීම
   runApp(const ProviderScope(child: MyApp()));
 }
 
