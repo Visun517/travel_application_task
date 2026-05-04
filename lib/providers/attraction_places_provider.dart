@@ -16,6 +16,11 @@ class AttractionsNotifier extends Notifier<List<AttractionModel>> {
   }
 }
 
-final attractionsProvider = NotifierProvider<AttractionsNotifier, List<AttractionModel>>(
-  AttractionsNotifier.new,
-);
+final attractionsProvider = NotifierProvider<AttractionsNotifier, List<AttractionModel>>(() {
+  return AttractionsNotifier();
+});
+
+
+// attraction_places_provider.dart
+
+final selectedCategoryProvider = StateProvider<String>((ref) => "Best by Season");

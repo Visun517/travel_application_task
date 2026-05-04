@@ -21,28 +21,17 @@ class AttractionModel {
     this.category = "Attraction",
   });
 
-  factory AttractionModel.fromMap(Map<String, dynamic> map) {
-    String? photoUrl;
-    if (map['photo'] != null && map['photo']['images'] != null) {
-      photoUrl = map['photo']['images']['large']?['url'] ?? 
-                 map['photo']['images']['medium']?['url'];
-    }
-
-    String categoryName = "Attraction";
-    if (map['subcategory'] != null && (map['subcategory'] as List).isNotEmpty) {
-      categoryName = map['subcategory'][0]['name'] ?? "Attraction";
-    }
-
+  factory AttractionModel.fromSupabase(Map<String, dynamic> map) {
     return AttractionModel(
-      id: map['location_id'] ?? '',
+      id: map['id'] ?? '',
       name: map['name'] ?? 'Unknown Place',
-      imageUrl: photoUrl,
-      rating: double.tryParse(map['rating']?.toString() ?? '0.0') ?? 0.0,
-      reviewCount: map['num_reviews'] ?? "0",
-      location: map['location_string'] ?? "",
+      imageUrl: map['image_url'], 
+      rating: (map['rating'] is num) ? (map['rating'] as num).toDouble() : 0.0,
+      reviewCount: map['review_count']?.toString() ?? "0",
+      location: map['location'] ?? "",
       description: map['description'] ?? "",
-      price: map['offer_group']?['lowest_price'],
-      category: categoryName,
+      price: map['price'],
+      category: map['category'] ?? "Attraction",
     );
   }
 }

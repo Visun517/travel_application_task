@@ -1,107 +1,66 @@
-import 'dart:convert';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart'; 
 import 'package:travel_application/models/attraction_place.dart';
 import 'package:travel_application/providers/attraction_places_provider.dart';
 
-Future<List<AttractionModel>> getLocationIdFromApi(String query) async {
-  final apiKey = dotenv.env['X-RAPIDAPIKEY'] ?? '';
+final supabase = Supabase.instance.client;
 
-  if (apiKey.isEmpty) {
-    return [];
-  }
-
-  final String url =
-      'https://travel-advisor.p.rapidapi.com/locations/search?query=$query&limit=1&units=km&currency=USD&sort=relevance&lang=en_US';
-
+Future<List<AttractionModel>> getAttractionsFromSupabase() async {
   try {
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {
-        'x-rapidapi-host': 'travel-advisor.p.rapidapi.com',
-        'x-rapidapi-key': apiKey,
-      },
-    );
+    final List<dynamic> response = await supabase.from('attractions').select();
+    
+    print("Fetched ${response.length} items from Supabase"); 
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> fullData = jsonDecode(response.body);
-
-      if (fullData['data'] != null && (fullData['data'] as List).isNotEmpty) {
-        final resultObject = fullData['data'][0]['result_object'];
-
-        if (resultObject != null && resultObject['location_id'] != null) {
-          final String locationId = resultObject['location_id'].toString();
-
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('saved_location_id', locationId);
-          print('✅ Location ID saved: $locationId');
-
-          return await getAttractionsByLocationId(locationId);
-        }
-      }
-    } else {}
-    return [];
+    return response.map((item) => AttractionModel.fromSupabase(item)).toList();
   } catch (e) {
-    return [];
-  }
-}
-
-Future<List<AttractionModel>> getAttractionsByLocationId(
-  String locationId,
-) async {
-  final apiKey = dotenv.env['X-RAPIDAPIKEY'] ?? '';
-
-  final String url =
-      'https://travel-advisor.p.rapidapi.com/attractions/list?location_id=$locationId&currency=USD&lang=en_US';
-
-  try {
-    final response = await http.get(
-      Uri.parse(url),
-      headers: {
-        'x-rapidapi-host': 'travel-advisor.p.rapidapi.com',
-        'x-rapidapi-key': apiKey,
-      },
-    );
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseBody = jsonDecode(response.body);
-      final List<dynamic> rawData = responseBody['data'] ?? [];
-
-      return rawData
-          .where(
-            (item) =>
-                item['name'] != null &&
-                item['photo'] != null &&
-                item['location_id'] != "0",
-          )
-          .map((item) => AttractionModel.fromMap(item))
-          .toList();
-    } else {
-      return [];
-    }
-  } catch (e) {
+    print("Supabase Error: $e");
     return [];
   }
 }
 
 Future<void> fetchStoredAttractions(WidgetRef ref) async {
   try {
-    final prefs = await SharedPreferences.getInstance();
+    final List<AttractionModel> results = await getAttractionsFromSupabase();
+    
+    print('Results fetched: ${results.length}');
 
-    final String? savedId = prefs.getString('saved_location_id');
+    ref.read(attractionsProvider.notifier).updateAttractions(results);
+    
+  } catch (e) {
+    print("Provider update error: $e");
+  }
+}
 
-    List<AttractionModel> results = [];
 
-    if (savedId != null && savedId.isNotEmpty) {
-      results = await getAttractionsByLocationId(savedId);
-    } else {
-      results = await getLocationIdFromApi("Colombo");
+
+Future<List<AttractionModel>> getAttractionsByCategory({query = "Sri Lanka", String? category}) async {
+  try {
+    var supabaseQuery = supabase.from('attractions').select();
+
+    if (category != null && category != "Best by Season") {
+      supabaseQuery = supabaseQuery.eq('category', category);
     }
+
+    final List<dynamic> response = await supabaseQuery;
+    return response.map((item) => AttractionModel.fromSupabase(item)).toList();
+  } catch (e) {
+    print("Supabase Fetch Error: $e");
+    return [];
+  }
+}
+
+// travel_service.dart
+
+Future<void> updateCategory(WidgetRef ref, String categoryName) async {
+  try {
+    ref.read(selectedCategoryProvider.notifier).state = categoryName;
+
+    ref.read(attractionsProvider.notifier).updateAttractions([]);
+
+    final results = await getAttractionsByCategory(query: "Sri Lanka", category: categoryName);
 
     ref.read(attractionsProvider.notifier).updateAttractions(results);
   } catch (e) {
-    print(e);
+    print("Error updating category: $e");
   }
 }
