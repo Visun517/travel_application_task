@@ -4,7 +4,7 @@ import 'package:travel_application/Components/button.dart';
 import 'package:travel_application/Components/custom_text_field.dart';
 import 'package:travel_application/screens/otp_screen.dart';
 import 'package:travel_application/screens/signup_screen.dart';
-import 'package:travel_application/services/auth.dart';
+import 'package:travel_application/services/authService.dart';
 import 'package:travel_application/widgets/customer_header.dart';
 import 'package:travel_application/widgets/footer.dart';
 import 'package:travel_application/widgets/or_devider.dart';
@@ -21,6 +21,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _isLoading = false;
   bool _rememberMe = false;
+
+  final auth = AuthService();
 
   @override
   void dispose() {
@@ -76,7 +78,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     : () async {
                         setState(() => _isLoading = true);
 
-                        await loginUser(
+                        await auth.loginUser(
                           context: context,
                           ref: ref,
                           email: _emailController.text.trim(),
@@ -109,7 +111,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           backgroundColor: Colors.white,
           foregroundColor: Colors.black87,
           onPressed: () {
-            continueWithGoogle(context);
+            auth.continueWithGoogle(context);
           },
         ),
         const SizedBox(height: 20),
@@ -147,7 +149,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               return;
             }
 
-            await sendOtp(email);
+            await auth.sendOtp(email);
 
             if (context.mounted) {
               Navigator.push(

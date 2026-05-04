@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_application/Components/button.dart';
 import 'package:travel_application/Components/custom_text_field.dart';
 import 'package:travel_application/screens/login_screen.dart';
-import 'package:travel_application/services/auth.dart';
+import 'package:travel_application/services/authService.dart';
 import 'package:travel_application/widgets/customer_header.dart';
 import 'package:travel_application/widgets/footer.dart';
 import 'package:travel_application/widgets/or_devider.dart';
@@ -20,6 +19,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _termsAccepted = false;
+
+  final auth = AuthService();
 
   @override
   void dispose() {
@@ -54,7 +55,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.black87,
                 onPressed: () {
-                  continueWithGoogle(context);
+                  auth.continueWithGoogle(context);
                 },
               ),
               const SizedBox(height: 20),
@@ -122,7 +123,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   }
 
                   if (_termsAccepted) {
-                    signUpUser(
+                    auth.signUpUser(
                       context: context,
                       fullName: _fullNameController.text,
                       email: _emailController.text,

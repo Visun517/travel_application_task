@@ -1,15 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:travel_application/models/place_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:travel_application/providers/attraction_places_provider.dart';
+import 'package:travel_application/services/travel_service.dart';
 import 'package:travel_application/widgets/category_bar.dart';
-import 'package:travel_application/widgets/home_screen_top_banner.dart';
+import 'package:travel_application/widgets/home_screen_header.dart';
+import 'package:travel_application/widgets/pop_up_notification.dart';
 import 'package:travel_application/widgets/popular_destination_card.dart';
 import 'package:travel_application/widgets/search_bar.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      TravelUtils.showWelcomeDialog(context);
+      Future.microtask(() => fetchStoredAttractions(ref));
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final allAttractions = ref.watch(attractionsProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -48,12 +67,20 @@ class HomeScreen extends StatelessWidget {
 
             SliverToBoxAdapter(
               child: SizedBox(
-                height: 470, 
+                height: 470,
                 child: ListView.builder(
+                  cacheExtent: 100,
                   scrollDirection: Axis.horizontal,
-                  itemCount: popularPlaces.length,
+                  itemCount: ref.watch(attractionsProvider).length,
                   itemBuilder: (context, index) {
-                    return PopularDestinationCard(place: popularPlaces[index]);
+                    return ProviderScope(
+                      overrides: [
+                        currentAttractionProvider.overrideWithValue(
+                          allAttractions[index],
+                        ),
+                      ],
+                      child: const PopularDestinationCard(),
+                    );
                   },
                 ),
               ),

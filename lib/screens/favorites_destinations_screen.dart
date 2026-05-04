@@ -15,7 +15,7 @@ class FavoritesDestinationsScreen extends StatelessWidget {
     : ListView.builder(
         itemCount: favoritePlaces.length,
         itemBuilder: (context, index) {
-          return PopularDestinationCard(place: favoritePlaces[index]);
+          return PopularDestinationCard();
         },
       ),
     );

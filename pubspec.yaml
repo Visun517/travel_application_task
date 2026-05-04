@@ -1,43 +1,40 @@
 name: travel_application
 description: "A new Flutter project."
-
 publish_to: 'none'
-
-
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.11.4
+  sdk: '>=3.0.0 <4.0.0' 
 
 dependencies:
-  supabase_flutter: ^2.0.0
   flutter:
     sdk: flutter
+  supabase_flutter: ^2.0.0
   flutter_dotenv: ^5.1.0
   google_sign_in: ^6.2.1
-
-    
-
+  cached_network_image: ^3.4.1
   cupertino_icons: ^1.0.8
-  flutter_riverpod: ^3.3.1
+  flutter_riverpod: ^2.5.1 
+  http: ^1.1.0
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
+  flutter_lints: ^3.0.0
   flutter_launcher_icons: ^0.13.1
 
 flutter:
+  uses-material-design: true
+
   fonts:
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins-Regular.ttf
-
     - family: PlayfairDisplay
       fonts:
         - asset: assets/fonts/PlayfairDisplay-VariableFont_wght.ttf
 
-  uses-material-design: true
   assets:
     - assets/images/home_banner_image2.png
     - assets/images/bali.png
@@ -58,7 +55,3 @@ flutter_launcher_icons:
   image_path: "assets/images/app_icon.png"
   min_sdk_android: 21
   remove_alpha_ios: true
-
-
-
-  

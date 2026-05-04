@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_application/services/auth.dart'; 
+import 'package:travel_application/services/authService.dart'; 
 
 class OTPScreen extends StatefulWidget {
   final String email;
@@ -13,10 +13,12 @@ class _OTPScreenState extends State<OTPScreen> {
   final _otpController = TextEditingController();
   bool _isLoading = false;
 
+  final auth = AuthService();
+
   void _verify() async {
     setState(() => _isLoading = true);
     
-    bool isSuccess = await verifyOtp(
+    bool isSuccess = await auth.verifyOtp(
       email: widget.email,
       otp: _otpController.text.trim(),
     );
@@ -83,7 +85,7 @@ class _OTPScreenState extends State<OTPScreen> {
               ),
             ),
             TextButton(
-              onPressed: () => sendOtp(widget.email), 
+              onPressed: () => auth.sendOtp(widget.email), 
               child: const Text("Resend Code", style: TextStyle(color: Colors.blue)),
             ),
           ],

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:travel_application/models/user.dart';
 import 'package:travel_application/widgets/profile_header.dart';
 import 'package:travel_application/widgets/profile_stat_section.dart';
 import 'package:travel_application/widgets/profile_menu_item.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -18,17 +18,17 @@ class ProfileScreen extends StatelessWidget {
               children: [
 
                 ProfileHeader(
-                  name: currentUser.name,
-                  email: currentUser.email,
-                  imagePath: currentUser.imagePath,
+                  name: "Visun",
+                  email: "Visun",
+                  imagePath: "Visun",
                 ),
 
                 const SizedBox(height: 30),
 
                 ProfileStatSection(
-                  trips: currentUser.tripsCount,
-                  favorites: currentUser.favoritesCount,
-                  reviews: currentUser.reviewsCount,
+                  trips: 10,
+                  favorites: 280,
+                  reviews: 12,
                 ),
 
                 const SizedBox(height: 30),
