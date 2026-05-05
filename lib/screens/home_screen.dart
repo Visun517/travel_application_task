@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_application/loading/poplar_destination_card_loader.dart';
 import 'package:travel_application/providers/attraction_places_provider.dart';
+import 'package:travel_application/screens/all_attraction_places.dart';
 import 'package:travel_application/services/travel_service.dart';
 import 'package:travel_application/widgets/category_bar.dart';
 import 'package:travel_application/widgets/home_screen_header.dart';
@@ -39,25 +40,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             const SliverToBoxAdapter(child: const HomeScreenSearchBar()),
             const SliverToBoxAdapter(child: SizedBox(height: 10)),
             const SliverToBoxAdapter(child: const HomeScreenCategories()),
-            const SliverToBoxAdapter(
+            SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Row(
                   children: [
-                    Text(
+                    const Text(
                       "Popular Destinations",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+
                     Spacer(),
-                    Text(
-                      "See all",
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const AllAttractionsScreen()),
+                        );
+                      },
+                      child: const Text(
+                        "See all",
+                        style: TextStyle(
+                          color: Colors
+                              .blue, 
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
