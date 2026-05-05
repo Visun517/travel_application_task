@@ -3,26 +3,31 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_application/providers/attraction_places_provider.dart';
+import 'package:travel_application/providers/favorites_places_provider.dart';
+import 'package:travel_application/screens/destination_details_screen.dart';
 
 class PopularDestinationCard extends ConsumerWidget {
   const PopularDestinationCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final attraction = ref.watch(currentAttractionProvider);  
+    final attraction = ref.watch(currentAttractionProvider);
+    final isFavorite = ref
+        .watch(favoritesProvider.notifier)
+        .isFavorite(attraction.id.toString());
 
     // Favorite logic
-    // bool isFavorite = favoritePlaces.any((item) => item.id == attraction.id);
 
     return InkWell(
-      // onTap: () {
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => DestinationDetailsScreen(attraction: attraction),
-      //     ),
-      //   );
-      // },
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                DestinationDetailsScreen(attractionModel: attraction),
+          ),
+        );
+      },
       child: Container(
         width: 350,
         margin: const EdgeInsets.only(left: 20, right: 10),
@@ -95,15 +100,17 @@ class PopularDestinationCard extends ConsumerWidget {
                     color: Colors.white.withValues(alpha: 0.9),
                     shape: BoxShape.circle,
                   ),
-                  // child: IconButton(
-                  //   icon: Icon(
-                  //     isFavorite ? Icons.favorite : Icons.favorite_border,
-                  //     color: isFavorite ? Colors.red : Colors.black,
-                  //     size: 22,
-                  //   ),
-                  //   onPressed: () {
-                  //   },
-                  // ),
+                  child: IconButton(
+                    icon: Icon(
+                      isFavorite ? Icons.favorite : Icons.favorite_border,
+                      color: isFavorite ? Colors.red : Colors.black87,
+                    ),
+                    onPressed: () {
+                      ref
+                          .read(favoritesProvider.notifier)
+                          .toggleFavorite(attraction);
+                    },
+                  ),
                 ),
               ),
 

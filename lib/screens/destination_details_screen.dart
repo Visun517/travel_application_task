@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../models/place_model.dart';
+import 'package:travel_application/models/attraction_place.dart';
 import '../widgets/destination_header.dart'; 
 import '../widgets/destination_details_body.dart'; 
 
 class DestinationDetailsScreen extends StatelessWidget {
-  final Place place;
-  const DestinationDetailsScreen({super.key, required this.place});
+  final AttractionModel attractionModel;
+  const DestinationDetailsScreen({super.key, required this.attractionModel});
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +14,8 @@ class DestinationDetailsScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              DestinationHeader(place: place), 
-              DestinationDetailsBody(place: place), 
+              DestinationHeader(attraction: attractionModel), 
+              DestinationDetailsBody(attraction: attractionModel), 
             ],
           ),
         ),

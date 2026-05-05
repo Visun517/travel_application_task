@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_application/loading/poplar_destination_card_loader.dart';
 import 'package:travel_application/providers/attraction_places_provider.dart';
+import 'package:travel_application/providers/favorites_places_provider.dart';
 import 'package:travel_application/screens/all_attraction_places.dart';
 import 'package:travel_application/services/travel_service.dart';
 import 'package:travel_application/widgets/category_bar.dart';
@@ -23,6 +24,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       TravelUtils.showWelcomeDialog(context);
+      ref.read(favoritesProvider.notifier).loadFavorites();
       Future.microtask(() => fetchStoredAttractions(ref));
     });
   }
