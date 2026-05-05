@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:travel_application/providers/attraction_places_provider.dart';
 import 'package:travel_application/services/travel_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreenSearchBar extends ConsumerStatefulWidget {
   const HomeScreenSearchBar({super.key});
@@ -18,14 +17,17 @@ class _HomeScreenSearchBarState extends ConsumerState<HomeScreenSearchBar> {
   void _performSearch() async {
     String searchText = _searchController.text.trim();
 
-    // if (searchText.isNotEmpty) {
-    //   ref.read(attractionsProvider.notifier).updateAttractions([]);
-    //   final prefs = await SharedPreferences.getInstance();
-    //   await prefs.setString('saved_location_name', searchText);
-    //   ref.read(currentSearchLocationProvider.notifier).state = searchText;
-    //   final results = await getAttractionsFromSupabase(searchText);
-    //   ref.read(attractionsProvider.notifier).updateAttractions(results);
-    // }
+    if (searchText.isEmpty) {
+      fetchStoredAttractions(ref);
+      return;
+    }
+
+    ref.read(attractionsProvider.notifier).updateAttractions([]);
+
+    final results = await getAttractionsFromSupabase(query: searchText);
+    print('Results fetched: ${results.length}');
+
+    ref.read(attractionsProvider.notifier).updateAttractions(results);
   }
 
   @override
@@ -59,9 +61,7 @@ class _HomeScreenSearchBarState extends ConsumerState<HomeScreenSearchBar> {
                 size: 20,
               ),
               onPressed: () {
-                // _performSearch();
-                // ref.read(currentSearchLocationProvider.notifier).state =
-                //     _searchController.text.trim();
+                _performSearch();
               },
             ),
             border: InputBorder.none,

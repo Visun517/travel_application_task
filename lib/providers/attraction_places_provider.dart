@@ -21,6 +21,7 @@ final attractionsProvider = NotifierProvider<AttractionsNotifier, List<Attractio
 });
 
 
-// attraction_places_provider.dart
 
 final selectedCategoryProvider = StateProvider<String>((ref) => "Best by Season");
+
+final searchProvider = StateProvider<String>((ref) => "");
