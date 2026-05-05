@@ -29,27 +29,25 @@ class AllAttractionsScreen extends ConsumerWidget {
       ),
       body: allAttractions.isEmpty
           ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: GridView.builder(
-                physics: const BouncingScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.65,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 15,
-                ),
-                itemCount: allAttractions.length,
-                itemBuilder: (context, index) {
-                  return ProviderScope(
-                    overrides: [
-                      currentAttractionProvider
-                          .overrideWithValue(allAttractions[index]),
-                    ],
-                    child: const PopularDestinationCard(),
-                  );
-                },
-              ),
+          : ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+              itemCount: allAttractions.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: SizedBox(
+                    height: 250,
+                    child: ProviderScope(
+                      overrides: [
+                        currentAttractionProvider
+                            .overrideWithValue(allAttractions[index]),
+                      ],
+                      child: const PopularDestinationCard(),
+                    ),
+                  ),
+                );
+              },
             ),
     );
   }

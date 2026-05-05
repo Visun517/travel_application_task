@@ -7,7 +7,6 @@ import 'package:travel_application/screens/all_attraction_places.dart';
 import 'package:travel_application/services/travel_service.dart';
 import 'package:travel_application/widgets/category_bar.dart';
 import 'package:travel_application/widgets/home_screen_header.dart';
-import 'package:travel_application/widgets/pop_up_notification.dart';
 import 'package:travel_application/widgets/popular_destination_card.dart';
 import 'package:travel_application/widgets/search_bar.dart';
 
@@ -23,7 +22,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      TravelUtils.showWelcomeDialog(context);
       ref.read(favoritesProvider.notifier).loadFavorites();
       Future.microtask(() => fetchStoredAttractions(ref));
     });
