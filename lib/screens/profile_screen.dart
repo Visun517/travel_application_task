@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:travel_application/screens/login_screen.dart';
+import 'package:travel_application/screens/onbording_screen.dart';
+import 'package:travel_application/services/authService.dart';
 import 'package:travel_application/widgets/profile_header.dart';
 import 'package:travel_application/widgets/profile_stat_section.dart';
 import 'package:travel_application/widgets/profile_menu_item.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -16,23 +18,18 @@ class ProfileScreen extends StatelessWidget {
           child: SafeArea(
             child: Column(
               children: [
-
                 ProfileHeader(
                   name: "Visun",
                   email: "Visun",
                   imagePath: "Visun",
                 ),
-
                 const SizedBox(height: 30),
-
                 ProfileStatSection(
                   trips: 10,
                   favorites: 280,
                   reviews: 12,
                 ),
-
                 const SizedBox(height: 30),
-                
                 ProfileMenuItem(
                   icon: Icons.person_outline,
                   title: "Edit Profile",
@@ -40,7 +37,6 @@ class ProfileScreen extends StatelessWidget {
                     print("Edit Profile Clicked");
                   },
                 ),
-
                 ProfileMenuItem(
                   icon: Icons.favorite_border,
                   title: "My Favorites",
@@ -48,7 +44,6 @@ class ProfileScreen extends StatelessWidget {
                     print("Favorites Clicked");
                   },
                 ),
-
                 ProfileMenuItem(
                   icon: Icons.settings_outlined,
                   title: "Settings",
@@ -56,7 +51,6 @@ class ProfileScreen extends StatelessWidget {
                     print("Settings Clicked");
                   },
                 ),
-                
                 ProfileMenuItem(
                   icon: Icons.help_outline,
                   title: "Help & Support",
@@ -64,26 +58,180 @@ class ProfileScreen extends StatelessWidget {
                     print("Help Clicked");
                   },
                 ),
-
                 const SizedBox(height: 20),
 
+                // Logout Button
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextButton(
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.red[50],
-                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 12),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius:
+                            BorderRadius.circular(12), 
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  24.0), 
+                            ),
+                            backgroundColor: Colors.white,
+                            surfaceTintColor: Colors
+                                .transparent, 
+                            elevation: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.all(
+                                  24.0), 
+                              child: Column(
+                                mainAxisSize: MainAxisSize
+                                    .min, 
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      color: Colors.red.withOpacity(0.1),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.logout_rounded,
+                                      color: Colors.red,
+                                      size: 32,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+
+                                  const Text(
+                                    "Log Out",
+                                    style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors
+                                          .black87, 
+                                    ),
+                                  ),
+                                  const SizedBox(height: 12),
+
+                                  const Text(
+                                    "Are you sure you want to log out of your account?",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black54,
+                                      height: 1.4,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 30),
+
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: OutlinedButton(
+                                          onPressed: () =>
+                                              Navigator.pop(dialogContext),
+                                          style: OutlinedButton.styleFrom(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 16),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                            side: const BorderSide(
+                                                color: Colors
+                                                    .black12), 
+                                          ),
+                                          child: const Text(
+                                            "Cancel",
+                                            style: TextStyle(
+                                              color: Colors.black87,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                          width: 16),
+                                      Expanded(
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            try {
+                                              await AuthService
+                                                  .signOut(); 
+
+                                              if (context.mounted) {
+                                                Navigator.pushAndRemoveUntil(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const OnboardingScreen(), 
+                                                  ),
+                                                  (route) => false,
+                                                );
+
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const LoginScreen(),
+                                                  ),
+                                                );
+                                              }
+                                            } catch (e) {
+                                              if (context.mounted) {
+                                                Navigator.pop(
+                                                    dialogContext);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                      content:
+                                                          Text('Error: $e')),
+                                                );
+                                              }
+                                            }
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.red
+                                                .shade600, 
+                                            foregroundColor: Colors.white,
+                                            elevation: 0,
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 16),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                          ),
+                                          child: const Text(
+                                            "Log Out",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
                     child: const Text(
                       "Logout",
                       style: TextStyle(color: Colors.red, fontSize: 16),
                     ),
                   ),
-                ),
+                )
               ],
             ),
           ),

@@ -21,42 +21,62 @@ class OnboardingScreen extends StatelessWidget {
             fit: BoxFit.cover,
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 40.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Travel\nWithout\nLimits...',
-                style: TextStyle(
-                  fontSize: 70,
-                  height: 1.1,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                  fontFamily: 'PlayfairDisplay',
+      
+        child: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight, 
+                  ),
+                  child: IntrinsicHeight( 
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 40.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children:[
+                          const Text(
+                            'Travel\nWithout\nLimits...',
+                            style: TextStyle(
+                              fontSize: 70, 
+                              height: 1.1,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
+                              fontFamily: 'PlayfairDisplay',
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          const Text(
+                            'Discover new places and create\nunforgettable experiences',
+                            style: TextStyle(fontSize: 18, color: Colors.white70),
+                          ),
+
+                          const Spacer(), 
+                          
+                          const SizedBox(height: 20), 
+
+                          CustomButton(
+                            title: 'Get Started',
+                            backgroundColor: Colors.white70,
+                            foregroundColor: Colors.black87,
+                            onPressed: () {
+                              log('Get Started button pressed');
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Discover new places and create\nunforgettable experiences',
-                style: TextStyle(fontSize: 18, color: Colors.black54),
-              ),
-
-              const Spacer(),
-
-              CustomButton(
-                title: 'Get Started',
-                backgroundColor: Colors.white70,
-                foregroundColor: Colors.black87,
-                onPressed: () {
-                  log('Get Started button pressed');
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()),
-                  );
-                },
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),

@@ -34,69 +34,86 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height - 40,
-          padding: const EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 20.0),
-          child: Column(
-            children: [
-              CustomHeader(
-                title: 'Welcome Back',
-                description:
-                    'Stay connected by signing in with your email and password to access your account',
-                textSize: 50.0,
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight, 
+                ),
+                child: IntrinsicHeight( 
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 20.0),
+                    child: Column(
+                      children:[
+                        CustomHeader(
+                          title: 'Welcome Back',
+                          description:
+                              'Stay connected by signing in with your email and password to access your account',
+                          textSize: 50.0,
+                        ),
+                        const SizedBox(height: 30),
+
+                        _buildSocialLogin(),
+                        const SizedBox(height: 30),
+
+                        // Form Fields
+                        CustomTextField(
+                          labelText: 'Email',
+                          controller: _emailController,
+                          prefixIcon: Icons.email_outlined,
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          labelText: 'Password',
+                          controller: _passwordController,
+                          prefixIcon: Icons.lock_outlined,
+                          isPassword: true,
+                        ),
+
+                        _buildRememberMeRow(),
+                        const SizedBox(height: 30),
+
+                        CustomButton(
+                          title: _isLoading ? 'Signing In...' : 'Sign In',
+                          backgroundColor: Colors.black87,
+                          foregroundColor: Colors.white,
+                          onPressed: _isLoading
+                              ? null
+                              : () async {
+                                  setState(() => _isLoading = true);
+
+                                  await auth.loginUser(
+                                    context: context,
+                                    ref: ref,
+                                    email: _emailController.text.trim(),
+                                    password: _passwordController.text,
+                                  );
+
+                                  if (mounted) {
+                                    setState(() => _isLoading = false);
+                                  }
+                                },
+                        ),
+
+                        const Spacer(), 
+                        
+                        const SizedBox(height: 20), 
+
+                        AuthFooter(
+                          leadingText: "Don't have an account? ",
+                          actionText: "Sign Up",
+                          targetScreen: const SignupScreen(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-              const SizedBox(height: 30),
-
-              _buildSocialLogin(),
-              const SizedBox(height: 30),
-
-              // Form Fields
-              CustomTextField(
-                labelText: 'Email',
-                controller: _emailController,
-                prefixIcon: Icons.email_outlined,
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const SizedBox(height: 20),
-              CustomTextField(
-                labelText: 'Password',
-                controller: _passwordController,
-                prefixIcon: Icons.lock_outlined,
-                isPassword: true,
-              ),
-
-              _buildRememberMeRow(),
-              const SizedBox(height: 30),
-
-              CustomButton(
-                title: 'Sign In',
-                backgroundColor: Colors.black87,
-                foregroundColor: Colors.white,
-                onPressed: _isLoading
-                    ? null
-                    : () async {
-                        setState(() => _isLoading = true);
-
-                        await auth.loginUser(
-                          context: context,
-                          ref: ref,
-                          email: _emailController.text.trim(),
-                          password: _passwordController.text,
-                        );
-
-                        if (mounted) setState(() => _isLoading = false);
-                      },
-              ),
-
-              const Spacer(),
-              AuthFooter(
-                leadingText: "Don't have an account? ",
-                actionText: "Sign Up",
-                targetScreen: const SignupScreen(),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
@@ -104,7 +121,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   Widget _buildSocialLogin() {
     return Column(
-      children: [
+      children:[
         CustomButton(
           title: 'Continue with Google',
           icon: Image.asset('assets/images/google.png', width: 20),
@@ -125,7 +142,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
-          children: [
+          children:[
             Checkbox(
               value: _rememberMe,
               onChanged: (bool? value) {

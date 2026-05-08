@@ -33,119 +33,130 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height - 40,
-          padding: const EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 20.0),
-          child: Column(
-            children: [
-              CustomHeader(
-                title: 'Create your account',
-                description:
-                    'Provide your full name, email, and password to create your account and get started',
-                textSize: 35.0,
-                targetScreen: const LoginScreen(),
-              ),
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight, 
+                ),
+                child: IntrinsicHeight( 
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 20.0),
+                    child: Column(
+                      children:[
+                        CustomHeader(
+                          title: 'Create your account',
+                          description:
+                              'Provide your full name, email, and password to create your account and get started',
+                          textSize: 35.0,
+                          targetScreen: const LoginScreen(),
+                        ),
 
-              const SizedBox(height: 30),
+                        const SizedBox(height: 30),
 
-              CustomButton(
-                title: 'Continue with Google',
-                icon: Image.asset('assets/images/google.png', width: 20),
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black87,
-                onPressed: () {
-                  auth.continueWithGoogle(context);
-                },
-              ),
-              const SizedBox(height: 20),
+                        CustomButton(
+                          title: 'Continue with Google',
+                          icon: Image.asset('assets/images/google.png', width: 20),
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.black87,
+                          onPressed: () {
+                            auth.continueWithGoogle(context);
+                          },
+                        ),
+                        const SizedBox(height: 20),
 
-              const OrDivider(),
+                        const OrDivider(),
 
-              const SizedBox(height: 20),
+                        const SizedBox(height: 20),
 
-              CustomTextField(
-                labelText: 'Full Name',
-                controller: _fullNameController,
-                prefixIcon: Icons.person_outline,
-                keyboardType: TextInputType.name,
-              ),
-              const SizedBox(height: 20),
-              CustomTextField(
-                labelText: 'Email',
-                controller: _emailController,
-                prefixIcon: Icons.email_outlined,
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const SizedBox(height: 20),
-              CustomTextField(
-                labelText: 'Password',
-                controller: _passwordController,
-                prefixIcon: Icons.lock_outlined,
-                isPassword: true,
-              ),
-              const SizedBox(height: 10),
+                        CustomTextField(
+                          labelText: 'Full Name',
+                          controller: _fullNameController,
+                          prefixIcon: Icons.person_outline,
+                          keyboardType: TextInputType.name,
+                        ),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          labelText: 'Email',
+                          controller: _emailController,
+                          prefixIcon: Icons.email_outlined,
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          labelText: 'Password',
+                          controller: _passwordController,
+                          prefixIcon: Icons.lock_outlined,
+                          isPassword: true,
+                        ),
+                        const SizedBox(height: 10),
 
-              Row(
-                children: [
-                  Checkbox(
-                    value: _termsAccepted,
-                    onChanged: (v) => setState(() => _termsAccepted = v!),
-                    activeColor: Colors.black,
+                        Row(
+                          children:[
+                            Checkbox(
+                              value: _termsAccepted,
+                              onChanged: (v) => setState(() => _termsAccepted = v!),
+                              activeColor: Colors.black,
+                            ),
+                            const Expanded(
+                              child: Text('I agree to the Terms and Conditions'),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        CustomButton(
+                          title: 'Sign Up',
+                          backgroundColor: Colors.black87,
+                          foregroundColor: Colors.white,
+                          onPressed: () {
+                            if (_fullNameController.text.isEmpty ||
+                                _emailController.text.isEmpty ||
+                                _passwordController.text.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Please fill all fields')),
+                              );
+                              return;
+                            }
+
+                            if (!_termsAccepted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Please accept the Terms and Conditions'),
+                                ),
+                              );
+                              return;
+                            }
+
+                            auth.signUpUser(
+                              context: context,
+                              fullName: _fullNameController.text,
+                              email: _emailController.text,
+                              password: _passwordController.text,
+                            );
+                          },
+                        ),
+
+                        const Spacer(),
+                        const SizedBox(height: 20), 
+
+                        AuthFooter(
+                          leadingText: "Already have an account? ", 
+                          actionText: "Sign In",
+                          targetScreen: const LoginScreen(),
+                        ),
+                      ],
+                    ),
                   ),
-                  const Text('I agree to the Terms and Conditions'),
-                ],
+                ),
               ),
-
-              const SizedBox(height: 20),
-
-              CustomButton(
-                title: 'Sign Up',
-                backgroundColor: Colors.black87,
-                foregroundColor: Colors.white,
-                onPressed: () {
-                  if (_fullNameController.text.isEmpty ||
-                      _emailController.text.isEmpty ||
-                      _passwordController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Please fill all fields')),
-                    );
-                    return;
-                  }
-
-                  if (!_termsAccepted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please accept the Terms and Conditions'),
-                      ),
-                    );
-                    return;
-                  }
-
-                  if (_termsAccepted) {
-                    auth.signUpUser(
-                      context: context,
-                      fullName: _fullNameController.text,
-                      email: _emailController.text,
-                      password: _passwordController.text,
-                    );
-                  }
-                },
-              ),
-
-              const Spacer(),
-
-              AuthFooter(
-                leadingText: "Don't have an account? ",
-                actionText: "Sign In",
-                targetScreen: const LoginScreen(),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
   }
-
- 
 }
