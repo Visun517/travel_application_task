@@ -5,7 +5,6 @@ import 'package:travel_application/screens/main_screen.dart';
 import 'package:travel_application/screens/onbording_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:travel_application/services/travel_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
