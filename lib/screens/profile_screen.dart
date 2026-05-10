@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_application/screens/edit_profile_screen.dart';
 import 'package:travel_application/screens/login_screen.dart';
 import 'package:travel_application/screens/onbording_screen.dart';
 import 'package:travel_application/services/authService.dart';
@@ -20,18 +21,24 @@ class ProfileScreen extends StatelessWidget {
                 const ProfileHeader(
                   name: "Visun",
                   email: "Visun",
-                  imagePath:
-                      "Visun", 
+                  imagePath: "Visun",
                 ),
-                const SizedBox(
-                    height: 30), 
+                const SizedBox(height: 30),
 
                 // Menu Items
                 ProfileMenuItem(
                   icon: Icons.person_outline,
                   title: "Edit Profile",
-                  onTap: () => print("Edit Profile Clicked"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EditProfileScreen(),
+                      ),
+                    );
+                  },
                 ),
+
                 ProfileMenuItem(
                   icon: Icons.favorite_border,
                   title: "My Favorites",
@@ -59,11 +66,10 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-
   // Logout Button
   Widget _buildLogoutButton(BuildContext context) {
     return SizedBox(
-      width: double.infinity, 
+      width: double.infinity,
       child: TextButton(
         style: TextButton.styleFrom(
           backgroundColor: Colors.red[50],
@@ -72,7 +78,7 @@ class ProfileScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        onPressed: () => _showLogoutDialog(context), 
+        onPressed: () => _showLogoutDialog(context),
         child: const Text(
           "Logout",
           style: TextStyle(
@@ -207,7 +213,7 @@ class ProfileScreen extends StatelessWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        Navigator.pop(dialogContext); 
+        Navigator.pop(dialogContext);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error logging out: $e')),
         );
